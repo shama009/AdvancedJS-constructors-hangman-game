@@ -1,0 +1,29 @@
+{
+  "name": "advancedjs-constructors-hangman-game",
+  "version": "1.0.0",
+  "description": "2017 movies hangman game",
+  "main": "game.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/shama009/AdvancedJS-constructors-hangman-game.git"
+  },
+  "keywords": [
+    "hangman",
+    "movies",
+    "advanced",
+    "js",
+    "constructors"
+  ],
+  "author": "Shama",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/shama009/AdvancedJS-constructors-hangman-game/issues"
+  },
+  "homepage": "https://github.com/shama009/AdvancedJS-constructors-hangman-game#readme",
+  "dependencies": {
+    "inquirer": "^4.0.2"
+  }
+}
