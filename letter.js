@@ -39,3 +39,14 @@ Letter.prototype.reset = function(){
         return console.log("Game Over!!");
     }
 }
+
+// get user input using inquirer
+var GuessLetter = function() {
+    inquirer.prompt([
+        {
+          message: "? Guess a letter! ",
+          name: "userGuess"
+        }]).then(function(answer){
+
+        });
+}
