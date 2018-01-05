@@ -59,43 +59,43 @@ var Letter = function () {
 
 Letter.prototype.reset = function () {
     if (guessesLeft <= 0) {
-         console.log("Game Over!!");
-         inquirer.prompt([
+        console.log("Game Over!!");
+        inquirer.prompt([
             {
                 message: "Play again? (y/n) ",
                 name: "playAgain"
             }]).then(function (answer) {
-                if((answer.playAgain == "Y") || (answer.playAgain == "y")){
+                if ((answer.playAgain == "Y") || (answer.playAgain == "y")) {
                     guessesLeft = 10;
                     wordGuessed = false;
                     index++;
                     matchedLetters = [];
                     newGame(index);
-                    
-                } else{
+
+                } else {
                     return console.log("GoodBye!!");
                 }
             }).catch(function (err) {
                 // log the errer if the promise is rejected
                 console.log(err);
             });
-         
+
     }
-    else if(wordGuessed){
+    else if (wordGuessed) {
         console.log("Congratulations! You Won!!\n" + "Correct Answer: " + movieToGuess);
         inquirer.prompt([
             {
                 message: "Play again? (y/n) ",
                 name: "playAgain"
             }]).then(function (answer) {
-                if((answer.playAgain == "Y") || (answer.playAgain == "y")){
+                if ((answer.playAgain == "Y") || (answer.playAgain == "y")) {
                     guessesLeft = 10;
                     wordGuessed = false;
                     index++;
                     matchedLetters = [];
                     newGame(index);
-                    
-                } else{
+
+                } else {
                     return console.log("GoodBye!!");
                 }
             }).catch(function (err) {
@@ -126,14 +126,14 @@ var GuessLetter = function () {
 
 }
 
-//get a movie name from array of movies
+
 var index = 0;
 var movieToGuess = "";
 var letter = new Letter();
-function newGame(index){
-    
+function newGame(index) {
+
     var word = new Word(index);
-    //word.startGame();
+    //get a movie name from array of movies
     movieToGuess = word.movie;
     letter.displayGuesses();
     GuessLetter();
