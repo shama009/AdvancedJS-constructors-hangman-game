@@ -2,11 +2,11 @@ var movies = require("./movies.js");
 
 var Word = function (index) {
     this.index = index;
-    this.getWord = function () {
+    this.movie = movies[this.index].trim();
+    this.startGame = function () {
         if (this.index === movies.length) {
             this.index = 0;
         }
-        this.movie = movies[this.index].trim();
         this.underscore = "";
         for (var i = 0; i < this.movie.length; i++) {
             if (this.movie[i] != " ") {
