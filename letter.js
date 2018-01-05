@@ -5,6 +5,7 @@ var guessesLeft = 10;
 var correctGuess = false;
 var wordGuessed = false;
 var matchedLetters = [];
+var guessedLetters = [];
 var index = 0;
 var movieToGuess = "";
 
@@ -27,7 +28,7 @@ var Letter = function () {
             console.log("\nCORRECT!!!");
 
         } else {
-            guessesLeft--;
+            // guessesLeft--;
             this.displayGuesses();
             console.log("\nINCORRECT!!!");
             console.log("Guesses left: " + guessesLeft);
@@ -57,6 +58,19 @@ var Letter = function () {
         console.log("\n" + displayWord);
 
     }
+    // keep track of user guesses and calculate guesses left
+    this.updateUserGuesses = function(userGuess) {
+    // If the letter is not in the guessedLetters array, and the letter is not in the lettersOfTheWord array..
+    if ((guessedLetters.indexOf(userGuess) === -1) && (movieToGuess.indexOf(userGuess) === -1)) {
+        
+              // Add the letter to the guessedLetters array.
+              guessedLetters.push(userGuess);
+        
+              // Decrease guesses by one.
+              guessesLeft--;
+              guessedLetters.join(", ");
+            }
+    }
 }
 
 // Reset or restart game based on user preference
@@ -79,7 +93,7 @@ Letter.prototype.reset = function () {
                     return console.log("GoodBye!!");
                 }
             }).catch(function (err) {
-                // log the errer if the promise is rejected
+                // log the error if the promise is rejected
                 console.log(err);
             });
 
@@ -102,7 +116,7 @@ Letter.prototype.reset = function () {
                     return console.log("GoodBye!!");
                 }
             }).catch(function (err) {
-                // log the errer if the promise is rejected
+                // log the error if the promise is rejected
                 console.log(err);
             });
     }
@@ -117,6 +131,7 @@ var GuessLetter = function () {
                 message: "? Guess a letter! ",
                 name: "userGuess"
             }]).then(function (answer) {
+                letter.updateUserGuesses(answer.userGuess);
                 letter.validateUserGuess(answer.userGuess);
                 letter.reset();
                 GuessLetter();
