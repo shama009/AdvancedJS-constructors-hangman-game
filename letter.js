@@ -5,17 +5,20 @@ var guessesLeft = 10;
 var correctGuess = false;
 var wordGuessed = false;
 var matchedLetters = [];
-var Letter = function () {
+var index = 0;
+var movieToGuess = "";
 
+// Letter constructor  used for each letter in the current word. 
+// Each letter object should either display an underlying character, 
+// or a blank placeholder (such as an underscore), depending on whether or not the user has guessed the letter.
+var Letter = function () {
     this.validateUserGuess = function (userGuess) {
         this.userGuess = userGuess;
-
+        // validate user user input and populate matchedLetters array
         for (var i = 0; i < movieToGuess.length; i++) {
-            //console.log(matchedLetters);
             if ((movieToGuess[i].toLowerCase() === this.userGuess) && (matchedLetters.indexOf(this.userGuess.toUpperCase()) === -1)) {
                 correctGuess = true;
                 matchedLetters.push(this.userGuess.toUpperCase());
-
             }
         }
         if (correctGuess) {
@@ -29,11 +32,11 @@ var Letter = function () {
             this.displayGuesses();
             console.log("\nINCORRECT!!!");
             console.log("\nGuesses left: " + guessesLeft);
-
         }
-
     }
 
+    // displays completed/incomplete word based on user guesses. 
+    // It basically populated placeholders("_") with correct userGuesses
     this.displayGuesses = function () {
         var displayWord = "";
         for (var i = 0; i < movieToGuess.length; i++) {
@@ -57,6 +60,7 @@ var Letter = function () {
     }
 }
 
+// Reset or restart game based on user preference
 Letter.prototype.reset = function () {
     if (guessesLeft <= 0) {
         console.log("Game Over!!");
@@ -106,7 +110,7 @@ Letter.prototype.reset = function () {
 }
 
 
-// get user input using inquirer
+// get user input using inquirer and use Letter constructor for game logic
 var GuessLetter = function () {
     if ((guessesLeft > 0) && (!wordGuessed)) {
         inquirer.prompt([
@@ -126,12 +130,10 @@ var GuessLetter = function () {
 
 }
 
-
-var index = 0;
-var movieToGuess = "";
+// create an instance of Letter constructor to use its properties and methods
 var letter = new Letter();
 function newGame(index) {
-
+    // create an instance for Word constructor in word.js
     var word = new Word(index);
     //get a movie name from array of movies
     movieToGuess = word.movie;
@@ -139,6 +141,7 @@ function newGame(index) {
     GuessLetter();
 }
 
+// start the game
 newGame(index);
 
 
