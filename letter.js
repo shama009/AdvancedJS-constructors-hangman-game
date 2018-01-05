@@ -7,26 +7,23 @@ var wordGuessed = false;
 var matchedLetters = [];
 var Letter = function () {
 
-    this.validateUserGuess = function (userGuess, movieName) {
+    this.validateUserGuess = function (userGuess) {
         this.userGuess = userGuess;
-        this.movieName = movieName;
-        for (var i = 0; i < this.movieName.length; i++) {
+
+        for (var i = 0; i < movieToGuess.length; i++) {
             //console.log(matchedLetters);
-            console.log(matchedLetters.indexOf(this.userGuess));
-            if ((this.movieName[i].toLowerCase() === this.userGuess) && (matchedLetters.indexOf(this.userGuess) === -1)) {
+            if ((movieToGuess[i].toLowerCase() === this.userGuess) && (matchedLetters.indexOf(this.userGuess.toUpperCase()) === -1)) {
                 correctGuess = true;
                 matchedLetters.push(this.userGuess.toUpperCase());
-                
-            } 
+
+            }
         }
         if (correctGuess) {
             correctGuess = false;
             console.log("Letter Guessed: " + this.userGuess);
             this.displayGuesses();
             console.log("\nCORRECT!!!");
-            // if(!(displayGuesses.includes("_"))){
-            //     wordGuessed = true;
-            // }
+
         } else {
             guessesLeft--;
             this.displayGuesses();
@@ -39,19 +36,21 @@ var Letter = function () {
 
     this.displayGuesses = function () {
         var displayWord = "";
-        for (var i = 0; i < this.movieName.length; i++) {
+        for (var i = 0; i < movieToGuess.length; i++) {
             // If the current letter has been guessed, display that letter.
-            if (this.matchedLetters.indexOf(this.movieName[i]) !== -1) {
-                // console.log(this.matchedLetters);
-                displayWord += this.movieName[i];
+            if (matchedLetters.indexOf(movieToGuess[i].toUpperCase()) !== -1) {
+                displayWord += movieToGuess[i];
             }
-            else if (this.movieName[i] === " ") {
-                displayWord +="  ";
-                 }
+            else if (movieToGuess[i] === " ") {
+                displayWord += "  ";
+            }
             // If it hasn't been guessed, display a "_" instead.
             else {
                 displayWord += " _ ";
             }
+        }
+        if (!(displayWord.includes("_"))) {
+            wordGuessed = true;
         }
         console.log(displayWord);
 
@@ -60,33 +59,86 @@ var Letter = function () {
 
 Letter.prototype.reset = function () {
     if (guessesLeft <= 0) {
-        return console.log("Game Over!!");
+         console.log("Game Over!!");
+         inquirer.prompt([
+            {
+                message: "Play again? (y/n) ",
+                name: "playAgain"
+            }]).then(function (answer) {
+                if((answer.playAgain == "Y") || (answer.playAgain == "y")){
+                    guessesLeft = 10;
+                    wordGuessed = false;
+                    index++;
+                    matchedLetters = [];
+                    newGame(index);
+                    
+                } else{
+                    return console.log("GoodBye!!");
+                }
+            }).catch(function (err) {
+                // log the errer if the promise is rejected
+                console.log(err);
+            });
+         
+    }
+    else if(wordGuessed){
+        console.log("Congratulations! You Won!!\n" + "Correct Answer: " + movieToGuess);
+        inquirer.prompt([
+            {
+                message: "Play again? (y/n) ",
+                name: "playAgain"
+            }]).then(function (answer) {
+                if((answer.playAgain == "Y") || (answer.playAgain == "y")){
+                    guessesLeft = 10;
+                    wordGuessed = false;
+                    index++;
+                    matchedLetters = [];
+                    newGame(index);
+                    
+                } else{
+                    return console.log("GoodBye!!");
+                }
+            }).catch(function (err) {
+                // log the errer if the promise is rejected
+                console.log(err);
+            });
     }
 }
 
 
 // get user input using inquirer
 var GuessLetter = function () {
-    if ((guessesLeft > 0) || (!wordGuessed)) {
+    if ((guessesLeft > 0) && (!wordGuessed)) {
         inquirer.prompt([
             {
                 message: "? Guess a letter! ",
                 name: "userGuess"
             }]).then(function (answer) {
-                var letter = new Letter();
-                letter.validateUserGuess(answer.userGuess, movieToGuess);
+                letter.validateUserGuess(answer.userGuess);
                 letter.reset();
                 GuessLetter();
 
+            }).catch(function (err) {
+                // log the error if the promise is rejected
+                console.log(err);
             });
     }
 
 }
 
 //get a movie name from array of movies
+var index = 0;
+var movieToGuess = "";
+var letter = new Letter();
+function newGame(index){
+    
+    var word = new Word(index);
+    //word.startGame();
+    movieToGuess = word.movie;
+    letter.displayGuesses();
+    GuessLetter();
+}
 
-var word = new Word(2);
-word.startGame();
-var movieToGuess = word.movie;
+newGame(index);
 
-GuessLetter();
+
