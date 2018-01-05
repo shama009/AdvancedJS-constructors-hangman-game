@@ -2,7 +2,6 @@ var movies = require("./movies.js");
 
 var Word = function (index) {
     this.index = index;
-    console.log(index);
     if (this.index >= movies.length) {
         this.index = 0;
     }

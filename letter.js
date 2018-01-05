@@ -23,7 +23,6 @@ var Letter = function () {
         }
         if (correctGuess) {
             correctGuess = false;
-            console.log("Letter Guessed: " + this.userGuess);
             this.displayGuesses();
             console.log("\nCORRECT!!!");
 
@@ -31,7 +30,7 @@ var Letter = function () {
             guessesLeft--;
             this.displayGuesses();
             console.log("\nINCORRECT!!!");
-            console.log("\nGuesses left: " + guessesLeft);
+            console.log("Guesses left: " + guessesLeft);
         }
     }
 
@@ -55,7 +54,7 @@ var Letter = function () {
         if (!(displayWord.includes("_"))) {
             wordGuessed = true;
         }
-        console.log(displayWord);
+        console.log("\n" + displayWord);
 
     }
 }
@@ -137,6 +136,7 @@ function newGame(index) {
     var word = new Word(index);
     //get a movie name from array of movies
     movieToGuess = word.movie;
+    console.log("Theme: Movies Released in 2017");
     letter.displayGuesses();
     GuessLetter();
 }
